@@ -1,20 +1,20 @@
 // --- 1. DATA & INITIAL STATE ---
 const DEFAULT_DISHES = [
-    { id: 1, name: "Empanadas de Yuca", description: "3 tradicionales empanadas de masa de yuca, crujientes y rellenas de carne.", price: 12500, category: "Entradas", image: "https://images.pexels.com/photos/2723610/pexels-photo-2723610.jpeg?auto=compress&cs=tinysrgb&w=600" },
-    { id: 2, name: "Arepa de Choclo", description: "Maíz tierno con generosa capa de queso campesino.", price: 9500, category: "Entradas", image: "https://images.pexels.com/photos/7311440/pexels-photo-7311440.jpeg?auto=compress&cs=tinysrgb&w=600" },
-    { id: 3, name: "Dedos de Yuca", description: "6 palitos de yuca crocantes rellenos de queso hilado con salsa de la casa.", price: 12000, category: "Entradas", image: "https://images.pexels.com/photos/1583884/pexels-photo-1583884.jpeg?auto=compress&cs=tinysrgb&w=600" },
-    { id: 4, name: "Carne Asada Especial", description: "Corte de res a la parrilla, arroz, papa salada y ensalada fresca.", price: 42000, category: "Platos Fuertes", image: "https://images.pexels.com/photos/6294444/pexels-photo-6294444.jpeg?auto=compress&cs=tinysrgb&w=600" },
-    { id: 5, name: "Ajiaco Santafereño", description: "Sopa tradicional con pollo, tres tipos de papas y guascas.", price: 32000, category: "Platos Fuertes", image: "https://images.pexels.com/photos/539451/pexels-photo-539451.jpeg?auto=compress&cs=tinysrgb&w=600" },
-    { id: 6, name: "Pasta a la Bolognesa", description: "Pasta artesanal con salsa de carne y parmesano.", price: 29000, category: "Platos Fuertes", image: "https://images.pexels.com/photos/1437267/pexels-photo-1437267.jpeg?auto=compress&cs=tinysrgb&w=600" },
-    { id: 7, name: "Limonada de Coco", description: "Bebida insignia refrescante y cremosa.", price: 12500, category: "Bebidas", image: "https://images.pexels.com/photos/161599/pexels-photo-161599.jpeg?auto=compress&cs=tinysrgb&w=600" },
-    { id: 8, name: "Sodas", description: "Refrescantes sodas saborizadas de frutos rojos, maracuyá y lulo.", price: 10500, category: "Bebidas", image: "https://images.pexels.com/photos/602750/pexels-photo-602750.jpeg?auto=compress&cs=tinysrgb&w=600" },
-    { id: 9, name: "Brownie con Helado", description: "Brownie melcochudo con helado de vainilla.", price: 15000, category: "Postres", image: "https://images.pexels.com/photos/45202/brownie-dessert-cake-sweet-45202.jpeg?auto=compress&cs=tinysrgb&w=600" }
+    { id: 1, name: "Empanadas de Yuca", description: "3 tradicionales empanadas de masa de yuca, crujientes y rellenas de carne.", price: 12500, category: "Entradas", image: "https://images.pexels.com/photos/37120981/pexels-photo-37120981.jpeg?auto=compress&cs=tinysrgb&w=1260" },
+    { id: 2, name: "Arepa de Choclo", description: "Maíz tierno con generosa capa de queso campesino.", price: 9500, category: "Entradas", image: "https://images.pexels.com/photos/37025260/pexels-photo-37025260.jpeg?auto=compress&cs=tinysrgb&w=1260" },
+    { id: 3, name: "Dedos de Yuca", description: "6 palitos de yuca crocantes rellenos de queso hilado con salsa de la casa.", price: 12000, category: "Entradas", image: "https://images.pexels.com/photos/37100342/pexels-photo-37100342.jpeg?auto=compress&cs=tinysrgb&w=1260" },
+    { id: 4, name: "Carne Asada Especial", description: "Corte de res a la parrilla, arroz, papa salada y ensalada fresca.", price: 42000, category: "Platos Fuertes", image: "https://images.pexels.com/photos/28525115/pexels-photo-28525115.jpeg?auto=compress&cs=tinysrgb&w=1260" },
+    { id: 5, name: "Ajiaco Santafereño", description: "Sopa tradicional con pollo, tres tipos de papas y guascas.", price: 32000, category: "Platos Fuertes", image: "https://images.pexels.com/photos/37024898/pexels-photo-37024898.jpeg?auto=compress&cs=tinysrgb&w=1260" },
+    { id: 6, name: "Pasta a la Bolognesa", description: "Pasta artesanal con salsa de carne y parmesano.", price: 29000, category: "Platos Fuertes", image: "https://images.pexels.com/photos/12667658/pexels-photo-12667658.jpeg?auto=compress&cs=tinysrgb&w=1260" },
+    { id: 7, name: "Limonada de Coco", description: "Bebida insignia refrescante y cremosa.", price: 12500, category: "Bebidas", image: "https://images.pexels.com/photos/8333744/pexels-photo-8333744.jpeg?auto=compress&cs=tinysrgb&w=1260" },
+    { id: 8, name: "Sodas", description: "Refrescantes sodas saborizadas de frutos rojos, maracuyá y lulo.", price: 10500, category: "Bebidas", image: "https://images.pexels.com/photos/5706517/pexels-photo-5706517.jpeg?auto=compress&cs=tinysrgb&w=1260" },
+    { id: 9, name: "Brownie con Helado", description: "Brownie melcochudo con helado de vainilla.", price: 15000, category: "Postres", image: "https://images.pexels.com/photos/33674421/pexels-photo-33674421.jpeg?auto=compress&cs=tinysrgb&w=1260" }
 ];
 
-// Force update to v18 to clear cache
-if (!localStorage.getItem('rest_v18')) {
+// Force update to v19 to clear cache
+if (!localStorage.getItem('rest_v19')) {
     localStorage.removeItem('rest_dishes');
-    localStorage.setItem('rest_v18', 'true');
+    localStorage.setItem('rest_v19', 'true');
 }
 
 let dishes = JSON.parse(localStorage.getItem('rest_dishes')) || DEFAULT_DISHES;
