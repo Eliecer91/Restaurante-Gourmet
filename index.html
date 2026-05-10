@@ -3,63 +3,207 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gourmet Express | Gestión de Pedidos</title>
-    <meta name="description" content="Sistema de gestión de pedidos para restaurante moderno y eficiente.">
+    <title>Gourmet Express | Sistema Integral</title>
+    <meta name="description" content="Sistema integral de gestión para restaurantes.">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome for icons -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    <header class="main-header">
-        <div class="container header-content">
+<body class="auth-hidden">
+    <!-- Login Overlay -->
+    <div id="login-overlay" class="login-overlay">
+        <div class="login-card">
             <div class="logo">
                 <i class="fas fa-utensils"></i>
                 <span>Gourmet<span>Express</span></span>
             </div>
-            <div class="search-bar">
-                <i class="fas fa-search"></i>
-                <input type="text" id="dish-search" placeholder="Buscar platillos...">
+            <h2>Bienvenido</h2>
+            <p>Ingresa tus credenciales para continuar</p>
+            <form id="login-form">
+                <div class="form-group">
+                    <label>Usuario</label>
+                    <input type="text" id="login-user" required placeholder="admin, mesero o cliente">
+                </div>
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <input type="password" id="login-pass" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn-primary btn-block">Iniciar Sesión</button>
+                <p class="login-hint">admin/admin123, mesero/mesero123</p>
+            </form>
+        </div>
+    </div>
+
+    <header class="main-header">
+        <div class="container header-content">
+            <div class="logo" id="home-trigger">
+                <i class="fas fa-utensils"></i>
+                <span>Gourmet<span>Express</span></span>
             </div>
-            <div class="cart-trigger" id="cart-btn">
-                <i class="fas fa-shopping-basket"></i>
-                <span class="cart-count" id="cart-count">0</span>
+            
+            <nav class="main-nav" id="main-nav">
+                <!-- Nav items will change per role -->
+            </nav>
+
+            <div class="header-actions">
+                <div class="user-info" id="user-display">
+                    <span id="username-text">Invitado</span>
+                    <button id="logout-btn" title="Cerrar Sesión"><i class="fas fa-sign-out-alt"></i></button>
+                </div>
+                <div class="cart-trigger" id="cart-btn">
+                    <i class="fas fa-shopping-basket"></i>
+                    <span class="cart-count" id="cart-count">0</span>
+                </div>
             </div>
         </div>
     </header>
 
     <main class="container">
-        <aside class="categories-nav">
-            <ul id="category-list">
-                <li class="active" data-category="all">Todos</li>
-                <li data-category="Entradas">Entradas</li>
-                <li data-category="Platos Fuertes">Platos Fuertes</li>
-                <li data-category="Bebidas">Bebidas</li>
-                <li data-category="Postres">Postres</li>
-            </ul>
-        </aside>
+        <!-- View: Client Menu -->
+        <section id="view-menu" class="view active">
+            <div class="menu-layout">
+                <aside class="categories-nav">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="dish-search" placeholder="Buscar...">
+                    </div>
+                    <ul id="category-list">
+                        <li class="active" data-category="all">Todos</li>
+                        <li data-category="Entradas">Entradas</li>
+                        <li data-category="Platos Fuertes">Platos Fuertes</li>
+                        <li data-category="Bebidas">Bebidas</li>
+                        <li data-category="Postres">Postres</li>
+                    </ul>
+                </aside>
+                <div class="menu-content">
+                    <h1 id="category-title">Todos los Platillos</h1>
+                    <div class="menu-grid" id="menu-grid"></div>
+                </div>
+            </div>
+        </section>
 
-        <section class="menu-section">
-            <h1 id="category-title">Todos los Platillos</h1>
-            <div class="menu-grid" id="menu-grid">
-                <!-- Dishes will be rendered here dynamically -->
+        <!-- View: Waiter Dashboard -->
+        <section id="view-waiter" class="view">
+            <h1>Gestión de Pedidos en Tiempo Real</h1>
+            <div class="orders-board">
+                <div class="order-col" data-status="Pendiente">
+                    <h3>Pendientes</h3>
+                    <div class="orders-list" id="list-pending"></div>
+                </div>
+                <div class="order-col" data-status="Preparando">
+                    <h3>En Cocina</h3>
+                    <div class="orders-list" id="list-preparing"></div>
+                </div>
+                <div class="order-col" data-status="Listo">
+                    <h3>Listos</h3>
+                    <div class="orders-list" id="list-ready"></div>
+                </div>
+                <div class="order-col" data-status="Entregado">
+                    <h3>Entregados</h3>
+                    <div class="orders-list" id="list-delivered"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- View: Admin CRUD Menu -->
+        <section id="view-admin-menu" class="view">
+            <div class="section-header">
+                <h1>Administración de Menú</h1>
+                <button class="btn-primary" id="btn-add-dish"><i class="fas fa-plus"></i> Nuevo Platillo</button>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Imagen</th>
+                            <th>Nombre</th>
+                            <th>Categoría</th>
+                            <th>Precio</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-menu-table"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- View: Reservations -->
+        <section id="view-reservations" class="view">
+            <div class="reservation-layout">
+                <div class="res-form-card">
+                    <h2>Nueva Reserva</h2>
+                    <form id="res-form">
+                        <div class="form-group">
+                            <label>Fecha</label>
+                            <input type="date" id="res-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Hora</label>
+                            <input type="time" id="res-time" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Personas</label>
+                            <input type="number" id="res-people" min="1" max="12" value="2" required>
+                        </div>
+                        <button type="submit" class="btn-primary btn-block">Reservar Mesa</button>
+                    </form>
+                </div>
+                <div class="res-list-card">
+                    <h2>Mis Reservas / Próximas</h2>
+                    <div id="reservations-list" class="res-items"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- View: Reports -->
+        <section id="view-reports" class="view">
+            <h1>Reportes y Cierre de Caja</h1>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-label">Ventas Hoy</span>
+                    <span class="stat-value" id="stat-today-sales">$0.00</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Pedidos Totales</span>
+                    <span class="stat-value" id="stat-total-orders">0</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Plato Estrella</span>
+                    <span class="stat-value" id="stat-top-dish">-</span>
+                </div>
+            </div>
+            <div class="reports-actions">
+                <button class="btn-secondary" id="btn-cash-close"><i class="fas fa-cash-register"></i> Realizar Cierre de Caja</button>
+            </div>
+            <div class="table-container" style="margin-top: 30px;">
+                <h3>Historial de Ventas</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID Pedido</th>
+                            <th>Cliente</th>
+                            <th>Total</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="history-table"></tbody>
+                </table>
             </div>
         </section>
     </main>
 
-    <!-- Shopping Cart Sidebar -->
+    <!-- Shopping Cart Sidebar (Same as before but integrated) -->
     <div class="cart-overlay" id="cart-overlay"></div>
     <aside class="cart-sidebar" id="cart-sidebar">
         <div class="cart-header">
             <h2>Tu Pedido</h2>
             <button class="close-cart" id="close-cart">&times;</button>
         </div>
-        <div class="cart-items" id="cart-items">
-            <!-- Cart items will be rendered here -->
-        </div>
+        <div class="cart-items" id="cart-items"></div>
         <div class="cart-footer">
             <div class="cart-total">
                 <span>Total:</span>
@@ -69,50 +213,19 @@
         </div>
     </aside>
 
-    <!-- Order Modal -->
+    <!-- Modal: CRUD / Checkout -->
     <div class="modal-overlay" id="modal-overlay">
-        <div class="modal">
+        <div class="modal" id="generic-modal">
             <div class="modal-header">
-                <h2>Finalizar Pedido</h2>
+                <h2 id="modal-title">Título</h2>
                 <button class="close-modal" id="close-modal">&times;</button>
             </div>
-            <div class="modal-body">
-                <form id="order-form">
-                    <div class="form-group">
-                        <label for="customer-name">Nombre Completo</label>
-                        <input type="text" id="customer-name" required placeholder="Ej: Juan Pérez">
-                    </div>
-                    <div class="form-group">
-                        <label for="order-type">Tipo de Pedido</label>
-                        <select id="order-type" required>
-                            <option value="mesa">Consumo en Local (Mesa)</option>
-                            <option value="domicilio">Para llevar / Domicilio</option>
-                        </select>
-                    </div>
-                    <div class="form-group" id="table-group">
-                        <label for="table-number">Número de Mesa</label>
-                        <input type="number" id="table-number" min="1" max="20" placeholder="Ej: 5">
-                    </div>
-                    <div class="form-group hidden" id="address-group">
-                        <label for="address">Dirección de Entrega</label>
-                        <input type="text" id="address" placeholder="Calle 123 #45-67">
-                    </div>
-                    <div class="order-summary-mini">
-                        <h3>Resumen</h3>
-                        <div id="modal-summary-items"></div>
-                        <div class="modal-total">
-                            <strong>Total a pagar:</strong>
-                            <span id="modal-total-price">$0.00</span>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn-primary btn-block">Confirmar Ahora</button>
-                </form>
-            </div>
+            <div class="modal-body" id="modal-content"></div>
         </div>
     </div>
 
-    <!-- Success Message -->
-    <div class="toast" id="toast">Pedido confirmado con éxito!</div>
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
 
     <script src="script.js"></script>
 </body>
