@@ -41,7 +41,7 @@
     <header class="main-header">
         <div class="container header-content">
             <div class="logo">
-                <i class="fas fa-utensils"></i>
+                <i class="fas fa-fire"></i>
                 <span>Gourmet<span>Express</span></span>
             </div>
             
@@ -68,6 +68,14 @@
     <main class="container">
         <!-- View: Menú -->
         <section id="view-menu" class="view active">
+            <div class="menu-hero" style="background: var(--primary-gradient); padding: 40px; border-radius: var(--radius-lg); margin-bottom: 40px; color: white; position: relative; overflow: hidden;">
+                <div style="position: relative; z-index: 2;">
+                    <h1 style="font-size: 2.5rem; margin-bottom: 10px;">¡Bienvenido a Gourmet Express!</h1>
+                    <p style="font-size: 1.1rem; opacity: 0.9;">Descubre los mejores sabores de la cocina tradicional colombiana.</p>
+                </div>
+                <i class="fas fa-utensils" style="position: absolute; right: -20px; bottom: -20px; font-size: 10rem; opacity: 0.1; transform: rotate(-15deg);"></i>
+            </div>
+
             <div class="menu-layout">
                 <aside class="categories-nav">
                     <div class="search-bar">
@@ -168,7 +176,13 @@
     <!-- Cart Sidebar -->
     <div class="cart-overlay" id="cart-overlay"></div>
     <aside class="cart-sidebar" id="cart-sidebar">
-        <div class="cart-header"><h2>Tu Pedido</h2><button class="close-cart" id="close-cart">&times;</button></div>
+        <div class="cart-header">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <i class="fas fa-shopping-bag" style="color: var(--primary); font-size: 1.5rem;"></i>
+                <h2 style="font-size: 1.5rem; margin: 0;">Tu Pedido</h2>
+            </div>
+            <button class="close-cart" id="close-cart" style="background: #f5f5f5; border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer;">&times;</button>
+        </div>
         <div class="cart-items" id="cart-items"></div>
         <div class="cart-footer">
             <div class="cart-total"><span>Total:</span><span id="cart-total-price">$0</span></div>

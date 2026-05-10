@@ -1,20 +1,20 @@
 // --- 1. DATA & INITIAL STATE ---
 const DEFAULT_DISHES = [
-    { id: 1, name: "Empanadas de Yuca", description: "3 tradicionales empanadas de masa de yuca, crujientes y rellenas de carne.", price: 12500, category: "Entradas", image: "https://images.unsplash.com/photo-1628543102715-99d124b862f2?w=600" },
-    { id: 2, name: "Arepa de Choclo", description: "Maíz tierno con generosa capa de queso campesino.", price: 9500, category: "Entradas", image: "https://images.unsplash.com/photo-1630138221876-068345479261?w=600" },
-    { id: 3, name: "Dedos de Yuca", description: "6 palitos de yuca crocantes rellenos de queso hilado con salsa de la casa.", price: 12000, category: "Entradas", image: "https://images.unsplash.com/photo-1623653387945-2fd25214f8fc?w=600" },
-    { id: 4, name: "Carne Asada Especial", description: "Corte de res a la parrilla, arroz, papa salada y ensalada fresca.", price: 42000, category: "Platos Fuertes", image: "https://images.unsplash.com/photo-1600891964092-4316c288032e?w=600" },
-    { id: 5, name: "Ajiaco Santafereño", description: "Sopa tradicional con pollo, tres tipos de papas y guascas.", price: 32000, category: "Platos Fuertes", image: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=600" },
-    { id: 6, name: "Pasta a la Bolognesa", description: "Pasta artesanal con salsa de carne y parmesano.", price: 29000, category: "Platos Fuertes", image: "https://images.unsplash.com/photo-1622973536968-3ead9e780960?w=600" },
-    { id: 7, name: "Limonada de Coco", description: "Bebida insignia refrescante y cremosa.", price: 12500, category: "Bebidas", image: "https://images.unsplash.com/photo-1546173159-315724a9d6ad?w=600" },
-    { id: 8, name: "Sodas", description: "Refrescantes sodas saborizadas de frutos rojos, maracuyá y lulo.", price: 10500, category: "Bebidas", image: "https://images.unsplash.com/photo-1536935338788-846bb9981813?w=600" },
-    { id: 9, name: "Brownie con Helado", description: "Brownie melcochudo con helado de vainilla.", price: 15000, category: "Postres", image: "https://images.unsplash.com/photo-1624353365286-3f8d62daad51?w=600" }
+    { id: 1, name: "Empanadas de Yuca", description: "3 tradicionales empanadas de masa de yuca, crujientes y rellenas de carne.", price: 12500, category: "Entradas", image: "https://cdn.pixabay.com/photo/2021/04/18/16/24/empanadas-6188902_1280.jpg" },
+    { id: 2, name: "Arepa de Choclo", description: "Maíz tierno con generosa capa de queso campesino.", price: 9500, category: "Entradas", image: "https://cdn.pixabay.com/photo/2021/01/21/11/30/arepas-5937073_1280.jpg" },
+    { id: 3, name: "Dedos de Yuca", description: "6 palitos de yuca crocantes rellenos de queso hilado con salsa de la casa.", price: 12000, category: "Entradas", image: "https://cdn.pixabay.com/photo-1623653387945-2fd25214f8fc?auto=format&fit=crop&w=600&q=80" },
+    { id: 4, name: "Carne Asada Especial", description: "Corte de res a la parrilla, arroz, papa salada y ensalada fresca.", price: 42000, category: "Platos Fuertes", image: "https://cdn.pixabay.com/photo/2016/01/22/02/13/meat-1155132_1280.jpg" },
+    { id: 5, name: "Ajiaco Santafereño", description: "Sopa tradicional con pollo, tres tipos de papas y guascas.", price: 32000, category: "Platos Fuertes", image: "https://cdn.pixabay.com/photo-2014/11/05/15/57/soup-518021_1280.jpg" },
+    { id: 6, name: "Pasta a la Bolognesa", description: "Pasta artesanal con salsa de carne y parmesano.", price: 29000, category: "Platos Fuertes", image: "https://cdn.pixabay.com/photo-2020/01/20/12/59/pasta-4779991_1280.jpg" },
+    { id: 7, name: "Limonada de Coco", description: "Bebida insignia refrescante y cremosa.", price: 12500, category: "Bebidas", image: "https://cdn.pixabay.com/photo-2018/02/23/11/39/coconut-3175344_1280.jpg" },
+    { id: 8, name: "Sodas", description: "Refrescantes sodas saborizadas de frutos rojos, maracuyá y lulo.", price: 10500, category: "Bebidas", image: "https://cdn.pixabay.com/photo-2018/07/04/18/06/cocktail-3516641_1280.jpg" },
+    { id: 9, name: "Brownie con Helado", description: "Brownie melcochudo con helado de vainilla.", price: 15000, category: "Postres", image: "https://cdn.pixabay.com/photo-2017/01/11/11/33/cake-1971552_1280.jpg" }
 ];
 
-// Force update to v12 to clear cache
-if (!localStorage.getItem('rest_v12')) {
+// Force update to v15 to clear cache
+if (!localStorage.getItem('rest_v15')) {
     localStorage.removeItem('rest_dishes');
-    localStorage.setItem('rest_v12', 'true');
+    localStorage.setItem('rest_v15', 'true');
 }
 
 let dishes = JSON.parse(localStorage.getItem('rest_dishes')) || DEFAULT_DISHES;
@@ -128,7 +128,7 @@ function renderClientMenu() {
     grid.innerHTML = filtered.map(dish => `
         <div class="dish-card">
             <div class="dish-img-container">
-                <img src="${dish.image}" alt="${dish.name}">
+                <img src="${dish.image}" alt="${dish.name}" loading="lazy">
                 <span class="dish-category">${dish.category}</span>
             </div>
             <div class="dish-info">
@@ -136,7 +136,9 @@ function renderClientMenu() {
                 <p>${dish.description}</p>
                 <div class="dish-footer">
                     <span class="dish-price">$${dish.price.toLocaleString('es-CO')}</span>
-                    <button class="btn-add" onclick="addToCart(${dish.id})"><i class="fas fa-plus"></i></button>
+                    <button class="btn-add" onclick="addToCart(${dish.id})">
+                        <i class="fas fa-plus"></i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -436,12 +438,12 @@ function updateCartUI() {
                 <img src="${item.image}" alt="${item.name}" class="cart-item-img">
                 <div class="cart-item-details">
                     <h4>${item.name}</h4>
-                    <div style="font-weight:600; color:var(--primary); font-size:0.9rem;">$${(item.price * item.quantity).toLocaleString('es-CO')}</div>
-                    <div class="cart-item-controls">
-                        <button class="qty-btn" onclick="updateQty(${item.id}, -1)">-</button>
-                        <span>${item.quantity}</span>
-                        <button class="qty-btn" onclick="updateQty(${item.id}, 1)">+</button>
-                    </div>
+                    <span>$${item.price.toLocaleString('es-CO')}</span>
+                </div>
+                <div class="qty-controls">
+                    <button class="qty-btn" onclick="updateQty(${item.id}, -1)">-</button>
+                    <span>${item.quantity}</span>
+                    <button class="qty-btn" onclick="updateQty(${item.id}, 1)">+</button>
                 </div>
             </div>
         `;
