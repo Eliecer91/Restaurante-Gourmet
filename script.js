@@ -1,20 +1,20 @@
 // --- 1. DATA & INITIAL STATE ---
 const DEFAULT_DISHES = [
     { id: 1, name: "Empanadas de Pipian", description: "3 deliciosas empanadas crujientes con ají casero.", price: 12000, category: "Entradas", image: "https://images.unsplash.com/photo-1541518763669-27fef04b14ea?w=600" },
-    { id: 2, name: "Arepa de Choclo", description: "Maíz tierno con generosa capa de queso campesino.", price: 9500, category: "Entradas", image: "https://images.unsplash.com/photo-1622321495394-55836934cc3f?w=600" },
+    { id: 2, name: "Arepa de Choclo", description: "Maíz tierno con generosa capa de queso campesino.", price: 9500, category: "Entradas", image: "https://images.unsplash.com/photo-1605151520668-db2c1626f830?w=600" },
     { id: 3, name: "Calamares al Ajillo", description: "Anillos de calamar salteados en ajo y finas hierbas.", price: 28000, category: "Entradas", image: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=600" },
-    { id: 4, name: "Bandeja Especial", description: "Frijoles, arroz, chicharrón, carne molida, huevo y aguacate.", price: 42000, category: "Platos Fuertes", image: "https://images.unsplash.com/photo-1606850246029-dd00bd5d2f27?w=600" },
+    { id: 4, name: "Carne Asada Especial", description: "Corte de res a la parrilla, arroz, papa salada y ensalada fresca.", price: 42000, category: "Platos Fuertes", image: "https://images.unsplash.com/photo-1594041680534-e8c8cdebd679?w=600" },
     { id: 5, name: "Ajiaco Santafereño", description: "Sopa tradicional con pollo, tres tipos de papas y guascas.", price: 32000, category: "Platos Fuertes", image: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=600" },
     { id: 6, name: "Pasta a la Bolognesa", description: "Pasta artesanal con salsa de carne y parmesano.", price: 29000, category: "Platos Fuertes", image: "https://images.unsplash.com/photo-1622973536968-3ead9e780960?w=600" },
     { id: 7, name: "Limonada de Coco", description: "Bebida insignia refrescante y cremosa.", price: 12500, category: "Bebidas", image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=600" },
     { id: 8, name: "Jugo de Lulo", description: "Fruta exótica colombiana en agua o leche.", price: 8500, category: "Bebidas", image: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=600" },
-    { id: 9, name: "Brownie con Helado", description: "Brownie melcochudo con helado de vainilla.", price: 15000, category: "Postres", image: "https://images.unsplash.com/photo-1564355808539-22fda35bed7e?w=600" }
+    { id: 9, name: "Brownie con Helado", description: "Brownie melcochudo con helado de vainilla.", price: 15000, category: "Postres", image: "https://images.unsplash.com/photo-1624353365286-3f8d62daad51?w=600" }
 ];
 
-// Force update to v4 to clear cache and see new images/dishes
-if (!localStorage.getItem('rest_v4')) {
+// Force update to v6 to clear cache
+if (!localStorage.getItem('rest_v6')) {
     localStorage.removeItem('rest_dishes');
-    localStorage.setItem('rest_v4', 'true');
+    localStorage.setItem('rest_v6', 'true');
 }
 
 let dishes = JSON.parse(localStorage.getItem('rest_dishes')) || DEFAULT_DISHES;
