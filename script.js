@@ -2,19 +2,19 @@
 const DEFAULT_DISHES = [
     { id: 1, name: "Empanadas de Yuca", description: "3 tradicionales empanadas de masa de yuca, crujientes y rellenas de carne.", price: 12500, category: "Entradas", image: "https://cdn.pixabay.com/photo/2021/04/18/16/24/empanadas-6188902_1280.jpg" },
     { id: 2, name: "Arepa de Choclo", description: "Maíz tierno con generosa capa de queso campesino.", price: 9500, category: "Entradas", image: "https://cdn.pixabay.com/photo/2021/01/21/11/30/arepas-5937073_1280.jpg" },
-    { id: 3, name: "Dedos de Yuca", description: "6 palitos de yuca crocantes rellenos de queso hilado con salsa de la casa.", price: 12000, category: "Entradas", image: "https://cdn.pixabay.com/photo-1623653387945-2fd25214f8fc?auto=format&fit=crop&w=600&q=80" },
+    { id: 3, name: "Dedos de Yuca", description: "6 palitos de yuca crocantes rellenos de queso hilado con salsa de la casa.", price: 12000, category: "Entradas", image: "https://cdn.pixabay.com/photo/2020/05/25/11/22/french-fries-5218146_1280.jpg" },
     { id: 4, name: "Carne Asada Especial", description: "Corte de res a la parrilla, arroz, papa salada y ensalada fresca.", price: 42000, category: "Platos Fuertes", image: "https://cdn.pixabay.com/photo/2016/01/22/02/13/meat-1155132_1280.jpg" },
-    { id: 5, name: "Ajiaco Santafereño", description: "Sopa tradicional con pollo, tres tipos de papas y guascas.", price: 32000, category: "Platos Fuertes", image: "https://cdn.pixabay.com/photo-2014/11/05/15/57/soup-518021_1280.jpg" },
-    { id: 6, name: "Pasta a la Bolognesa", description: "Pasta artesanal con salsa de carne y parmesano.", price: 29000, category: "Platos Fuertes", image: "https://cdn.pixabay.com/photo-2020/01/20/12/59/pasta-4779991_1280.jpg" },
-    { id: 7, name: "Limonada de Coco", description: "Bebida insignia refrescante y cremosa.", price: 12500, category: "Bebidas", image: "https://cdn.pixabay.com/photo-2018/02/23/11/39/coconut-3175344_1280.jpg" },
-    { id: 8, name: "Sodas", description: "Refrescantes sodas saborizadas de frutos rojos, maracuyá y lulo.", price: 10500, category: "Bebidas", image: "https://cdn.pixabay.com/photo-2018/07/04/18/06/cocktail-3516641_1280.jpg" },
-    { id: 9, name: "Brownie con Helado", description: "Brownie melcochudo con helado de vainilla.", price: 15000, category: "Postres", image: "https://cdn.pixabay.com/photo-2017/01/11/11/33/cake-1971552_1280.jpg" }
+    { id: 5, name: "Ajiaco Santafereño", description: "Sopa tradicional con pollo, tres tipos de papas y guascas.", price: 32000, category: "Platos Fuertes", image: "https://cdn.pixabay.com/photo/2014/11/05/15/57/soup-518021_1280.jpg" },
+    { id: 6, name: "Pasta a la Bolognesa", description: "Pasta artesanal con salsa de carne y parmesano.", price: 29000, category: "Platos Fuertes", image: "https://cdn.pixabay.com/photo/2020/01/20/12/59/pasta-4779991_1280.jpg" },
+    { id: 7, name: "Limonada de Coco", description: "Bebida insignia refrescante y cremosa.", price: 12500, category: "Bebidas", image: "https://cdn.pixabay.com/photo/2018/02/23/11/39/coconut-3175344_1280.jpg" },
+    { id: 8, name: "Sodas", description: "Refrescantes sodas saborizadas de frutos rojos, maracuyá y lulo.", price: 10500, category: "Bebidas", image: "https://cdn.pixabay.com/photo/2018/07/04/18/06/cocktail-3516641_1280.jpg" },
+    { id: 9, name: "Brownie con Helado", description: "Brownie melcochudo con helado de vainilla.", price: 15000, category: "Postres", image: "https://cdn.pixabay.com/photo/2017/01/11/11/33/cake-1971552_1280.jpg" }
 ];
 
-// Force update to v15 to clear cache
-if (!localStorage.getItem('rest_v15')) {
+// Force update to v17 to clear cache
+if (!localStorage.getItem('rest_v17')) {
     localStorage.removeItem('rest_dishes');
-    localStorage.setItem('rest_v15', 'true');
+    localStorage.setItem('rest_v17', 'true');
 }
 
 let dishes = JSON.parse(localStorage.getItem('rest_dishes')) || DEFAULT_DISHES;
@@ -478,14 +478,14 @@ function openCheckoutModal() {
                     ${customerOptions}
                 </select>
             </div>
-            <div class="form-group"><label>Nombre Facturación</label><input type="text" id="check-name" value="${currentUser ? currentUser.name : ''}" required></div>
+            <div class="form-group"><label>Nombre Facturación</label><input type="text" id="check-name" placeholder="Nombre del cliente" required></div>
             <div class="form-group"><label>NIT / Cédula</label><input type="text" id="check-nit" placeholder="Para la factura" required></div>
             <div class="form-group"><label>Mesa / Dirección</label><input type="text" id="check-table" placeholder="Mesa 5 o Calle 123" required></div>
-            <div class="form-group" style="display: flex; align-items: center; gap: 10px; background: #f8f9fa; padding: 10px; border-radius: 8px;">
+            <div class="form-group" style="display: flex; align-items: center; gap: 10px; background: #f8f9fa; padding: 10px; border-radius: 12px; margin-top: 20px;">
                 <input type="checkbox" id="save-customer-chk" style="width: auto; margin: 0;">
-                <label for="save-customer-chk" style="margin: 0; font-size: 0.85rem; cursor: pointer; color: var(--secondary);">Guardar cliente para futuras facturas</label>
+                <label for="save-customer-chk" style="margin: 0; font-size: 0.85rem; cursor: pointer; color: var(--secondary); font-weight: 600;">Guardar cliente para futuras facturas</label>
             </div>
-            <button type="submit" class="btn-primary btn-block">Confirmar Ahora</button>
+            <button type="submit" class="btn-primary" style="width: 100%; margin-top: 25px;">Confirmar Ahora</button>
         </form>
     `);
 
