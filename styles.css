@@ -34,29 +34,20 @@ h1, h2, h3, .logo { font-family: 'Outfit', sans-serif; font-weight: 700; }
 
 .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-/* Login Overlay */
-.login-overlay {
+/* Login Modal adjustments */
+.modal-overlay {
     position: fixed;
     inset: 0;
-    background: var(--secondary);
-    background-image: linear-gradient(rgba(47, 53, 66, 0.8), rgba(47, 53, 66, 0.8)), url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&q=80&w=1200');
-    background-size: cover;
-    z-index: 2000;
+    background: rgba(0,0,0,0.6);
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: opacity 0.5s ease;
+    z-index: 1100;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
 }
-
-.login-card {
-    background: white;
-    padding: 40px;
-    border-radius: var(--radius-lg);
-    width: 100%;
-    max-width: 400px;
-    box-shadow: var(--shadow-lg);
-    text-align: center;
-}
+.modal-overlay.active { opacity: 1; visibility: visible; }
 
 .login-card h2 { margin-bottom: 5px; }
 .login-card p { color: var(--text-muted); margin-bottom: 25px; }

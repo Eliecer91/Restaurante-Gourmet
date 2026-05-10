@@ -13,28 +13,29 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
-<body class="auth-hidden">
-    <!-- Login Overlay -->
-    <div id="login-overlay" class="login-overlay">
-        <div class="login-card">
-            <div class="logo">
-                <i class="fas fa-utensils"></i>
-                <span>Gourmet<span>Express</span></span>
+<body class="">
+    <!-- Login Modal (Hidden by default) -->
+    <div id="login-modal" class="modal-overlay">
+        <div class="modal" style="max-width: 400px;">
+            <div class="modal-header">
+                <h2>Iniciar Sesión</h2>
+                <button class="close-modal" id="close-login">&times;</button>
             </div>
-            <h2>Bienvenido</h2>
-            <p>Ingresa tus credenciales para continuar</p>
-            <form id="login-form">
-                <div class="form-group">
-                    <label>Usuario</label>
-                    <input type="text" id="login-user" required placeholder="admin, mesero o cliente">
-                </div>
-                <div class="form-group">
-                    <label>Contraseña</label>
-                    <input type="password" id="login-pass" required placeholder="••••••••">
-                </div>
-                <button type="submit" class="btn-primary btn-block">Iniciar Sesión</button>
-                <p class="login-hint">admin/admin123, mesero/mesero123</p>
-            </form>
+            <div class="modal-body">
+                <p style="color: var(--text-muted); margin-bottom: 20px; text-align: center;">Ingresa tus credenciales para acceder a funciones administrativas.</p>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label>Usuario</label>
+                        <input type="text" id="login-user" required placeholder="admin o mesero">
+                    </div>
+                    <div class="form-group">
+                        <label>Contraseña</label>
+                        <input type="password" id="login-pass" required placeholder="••••••••">
+                    </div>
+                    <button type="submit" class="btn-primary btn-block">Entrar</button>
+                    <p class="login-hint" style="text-align: center; margin-top: 15px; font-size: 0.8rem;">admin/admin123, mesero/mesero123</p>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -51,8 +52,11 @@
 
             <div class="header-actions">
                 <div class="user-info" id="user-display">
-                    <span id="username-text">Invitado</span>
-                    <button id="logout-btn" title="Cerrar Sesión"><i class="fas fa-sign-out-alt"></i></button>
+                    <button id="login-trigger" class="btn-secondary" style="padding: 8px 15px; font-size: 0.8rem;"><i class="fas fa-user"></i> Iniciar Sesión</button>
+                    <div id="user-logged" class="hidden" style="display: flex; align-items: center; gap: 10px;">
+                        <span id="username-text">Invitado</span>
+                        <button id="logout-btn" title="Cerrar Sesión"><i class="fas fa-sign-out-alt"></i></button>
+                    </div>
                 </div>
                 <div class="cart-trigger" id="cart-btn">
                     <i class="fas fa-shopping-basket"></i>
