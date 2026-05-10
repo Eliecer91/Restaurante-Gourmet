@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gourmet Express | Sistema Integral</title>
-    <meta name="description" content="Sistema integral de gestión para restaurantes.">
+    <meta name="description" content="Sistema integral de gestión para restaurantes con facturación colombiana.">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,16 +13,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
-<body class="">
-    <!-- Login Modal (Hidden by default) -->
+<body>
+    <!-- Login Modal -->
     <div id="login-modal" class="modal-overlay">
         <div class="modal" style="max-width: 400px;">
             <div class="modal-header">
                 <h2>Iniciar Sesión</h2>
-                <button class="close-modal" id="close-login" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
+                <button class="close-modal" id="close-login">&times;</button>
             </div>
             <div class="modal-body">
-                <p style="color: var(--text-muted); margin-bottom: 20px; text-align: center;">Ingresa tus credenciales para acceder a funciones administrativas.</p>
                 <form id="login-form">
                     <div class="form-group">
                         <label>Usuario</label>
@@ -33,7 +32,7 @@
                         <input type="password" id="login-pass" required placeholder="••••••••">
                     </div>
                     <button type="submit" class="btn-primary btn-block">Entrar</button>
-                    <p class="login-hint" style="text-align: center; margin-top: 15px; font-size: 0.8rem;">admin/admin123, mesero/mesero123</p>
+                    <p style="text-align: center; margin-top: 15px; font-size: 0.8rem; color: #777;">admin/admin123, mesero/mesero123</p>
                 </form>
             </div>
         </div>
@@ -41,18 +40,18 @@
 
     <header class="main-header">
         <div class="container header-content">
-            <div class="logo" id="home-trigger">
+            <div class="logo">
                 <i class="fas fa-utensils"></i>
                 <span>Gourmet<span>Express</span></span>
             </div>
             
             <nav class="main-nav" id="main-nav">
-                <!-- Nav items will change per role -->
+                <!-- Dinámico -->
             </nav>
 
             <div class="header-actions">
                 <div class="user-info" id="user-display">
-                    <button id="login-trigger" class="btn-secondary" style="padding: 8px 15px; font-size: 0.8rem;"><i class="fas fa-user"></i> Iniciar Sesión</button>
+                    <button id="login-trigger" class="btn-secondary" style="padding: 8px 15px; font-size: 0.8rem;"><i class="fas fa-user"></i> Acceso Personal</button>
                     <div id="user-logged" class="hidden" style="display: flex; align-items: center; gap: 10px;">
                         <span id="username-text">Invitado</span>
                         <button id="logout-btn" title="Cerrar Sesión"><i class="fas fa-sign-out-alt"></i></button>
@@ -67,13 +66,13 @@
     </header>
 
     <main class="container">
-        <!-- View: Client Menu -->
+        <!-- View: Menú -->
         <section id="view-menu" class="view active">
             <div class="menu-layout">
                 <aside class="categories-nav">
                     <div class="search-bar">
                         <i class="fas fa-search"></i>
-                        <input type="text" id="dish-search" placeholder="Buscar...">
+                        <input type="text" id="dish-search" placeholder="Buscar plato...">
                     </div>
                     <ul id="category-list">
                         <li class="active" data-category="all">Todos</li>
@@ -84,174 +83,111 @@
                     </ul>
                 </aside>
                 <div class="menu-content">
-                    <h1 id="category-title">Todos los Platillos</h1>
+                    <h1 id="category-title">Carta Gourmet</h1>
                     <div class="menu-grid" id="menu-grid"></div>
                 </div>
             </div>
         </section>
 
-        <!-- View: Waiter Dashboard -->
+        <!-- View: Mesero (Pedidos) -->
         <section id="view-waiter" class="view">
-            <h1>Gestión de Pedidos en Tiempo Real</h1>
+            <h1>Gestión de Pedidos</h1>
             <div class="orders-board">
-                <div class="order-col" data-status="Pendiente">
-                    <h3>Pendientes</h3>
-                    <div class="orders-list" id="list-pending"></div>
-                </div>
-                <div class="order-col" data-status="Preparando">
-                    <h3>En Cocina</h3>
-                    <div class="orders-list" id="list-preparing"></div>
-                </div>
-                <div class="order-col" data-status="Listo">
-                    <h3>Listos</h3>
-                    <div class="orders-list" id="list-ready"></div>
-                </div>
-                <div class="order-col" data-status="Entregado">
-                    <h3>Entregados</h3>
-                    <div class="orders-list" id="list-delivered"></div>
-                </div>
+                <div class="order-col"><h3>Pendientes</h3><div class="orders-list" id="list-pendiente"></div></div>
+                <div class="order-col"><h3>Preparando</h3><div class="orders-list" id="list-preparando"></div></div>
+                <div class="order-col"><h3>Listos</h3><div class="orders-list" id="list-listo"></div></div>
+                <div class="order-col"><h3>Entregados</h3><div class="orders-list" id="list-entregado"></div></div>
             </div>
         </section>
 
-        <!-- View: Admin CRUD Menu -->
-        <section id="view-admin-menu" class="view">
-            <div class="section-header">
-                <h1>Administración de Menú</h1>
-                <button class="btn-primary" id="btn-add-dish"><i class="fas fa-plus"></i> Nuevo Platillo</button>
-            </div>
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Imagen</th>
-                            <th>Nombre</th>
-                            <th>Categoría</th>
-                            <th>Precio</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="admin-menu-table"></tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- View: Reservations -->
+        <!-- View: Reservas -->
         <section id="view-reservations" class="view">
             <div class="reservation-layout">
                 <div class="res-form-card">
                     <h2>Nueva Reserva</h2>
                     <form id="res-form">
-                        <div class="form-group">
-                            <label>Fecha</label>
-                            <input type="date" id="res-date" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Hora</label>
-                            <input type="time" id="res-time" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Personas</label>
-                            <input type="number" id="res-people" min="1" max="12" value="2" required>
-                        </div>
-                        <button type="submit" class="btn-primary btn-block">Reservar Mesa</button>
+                        <div class="form-group"><label>Fecha</label><input type="date" id="res-date" required></div>
+                        <div class="form-group"><label>Hora</label><input type="time" id="res-time" required></div>
+                        <div class="form-group"><label>Personas</label><input type="number" id="res-people" min="1" max="12" value="2" required></div>
+                        <button type="submit" class="btn-primary btn-block">Confirmar Reserva</button>
                     </form>
                 </div>
                 <div class="res-list-card">
-                    <h2>Mis Reservas / Próximas</h2>
-                    <div id="reservations-list" class="res-items"></div>
+                    <h2>Reservas Próximas</h2>
+                    <div id="reservations-list"></div>
                 </div>
             </div>
         </section>
 
-        <!-- View: Reports -->
-        <section id="view-reports" class="view">
-            <h1>Reportes y Cierre de Caja</h1>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <span class="stat-label">Ventas Hoy</span>
-                    <span class="stat-value" id="stat-today-sales">$0.00</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-label">Pedidos Totales</span>
-                    <span class="stat-value" id="stat-total-orders">0</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-label">Plato Estrella</span>
-                    <span class="stat-value" id="stat-top-dish">-</span>
-                </div>
-            </div>
-            <div class="reports-actions">
-                <button class="btn-secondary" id="btn-cash-close"><i class="fas fa-cash-register"></i> Realizar Cierre de Caja</button>
-            </div>
-            <div class="table-container" style="margin-top: 30px;">
-                <h3>Historial de Ventas</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID Pedido</th>
-                            <th>Cliente</th>
-                            <th>Total</th>
-                            <th>Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody id="history-table"></tbody>
-                </table>
-            </div>
-        <!-- View: Customers (New for Billing) -->
-        <section id="view-customers" class="view">
+        <!-- View: Gestión Menú Admin -->
+        <section id="view-admin-menu" class="view">
             <div class="section-header">
-                <h1>Gestión de Clientes (Facturación)</h1>
-                <button class="btn-primary" id="btn-add-customer"><i class="fas fa-user-plus"></i> Nuevo Cliente</button>
+                <h1>Administración de Menú</h1>
+                <button class="btn-primary" id="btn-add-dish"><i class="fas fa-plus"></i> Nuevo Plato</button>
             </div>
             <div class="table-container">
                 <table>
-                    <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>NIT/RUT</th>
-                            <th>Email</th>
-                            <th>Teléfono</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
+                    <thead><tr><th>Foto</th><th>Nombre</th><th>Categoría</th><th>Precio</th><th>Acciones</th></tr></thead>
+                    <tbody id="admin-menu-table"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- View: Clientes -->
+        <section id="view-customers" class="view">
+            <div class="section-header">
+                <h1>Base de Datos Clientes</h1>
+                <button class="btn-primary" id="btn-add-customer"><i class="fas fa-user-plus"></i> Registrar Cliente</button>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead><tr><th>Nombre</th><th>NIT/Cédula</th><th>Email</th><th>Teléfono</th><th>Acciones</th></tr></thead>
                     <tbody id="customers-table"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- View: Reportes -->
+        <section id="view-reports" class="view">
+            <h1>Reportes de Ventas</h1>
+            <div class="stats-grid">
+                <div class="stat-card"><span class="stat-label">Ventas Hoy</span><span class="stat-value" id="stat-today-sales">$0</span></div>
+                <div class="stat-card"><span class="stat-label">Pedidos Realizados</span><span class="stat-value" id="stat-total-orders">0</span></div>
+            </div>
+            <button class="btn-secondary" id="btn-cash-close" style="margin-bottom: 20px;"><i class="fas fa-cash-register"></i> Cierre de Caja</button>
+            <div class="table-container">
+                <h3>Historial de Ventas</h3>
+                <table>
+                    <thead><tr><th>Pedido</th><th>Cliente</th><th>Total</th><th>Estado</th><th>PDF</th></tr></thead>
+                    <tbody id="history-table"></tbody>
                 </table>
             </div>
         </section>
     </main>
 
-    <!-- Shopping Cart Sidebar (Same as before but integrated) -->
+    <!-- Cart Sidebar -->
     <div class="cart-overlay" id="cart-overlay"></div>
     <aside class="cart-sidebar" id="cart-sidebar">
-        <div class="cart-header">
-            <h2>Tu Pedido</h2>
-            <button class="close-cart" id="close-cart">&times;</button>
-        </div>
+        <div class="cart-header"><h2>Tu Pedido</h2><button class="close-cart" id="close-cart">&times;</button></div>
         <div class="cart-items" id="cart-items"></div>
         <div class="cart-footer">
-            <div class="cart-total">
-                <span>Total:</span>
-                <span id="cart-total-price">$0.00</span>
-            </div>
-            <button class="btn-primary btn-block" id="checkout-btn">Confirmar Pedido</button>
+            <div class="cart-total"><span>Total:</span><span id="cart-total-price">$0</span></div>
+            <button class="btn-primary btn-block" id="checkout-btn">Confirmar y Facturar</button>
         </div>
     </aside>
 
-    <!-- Modal: CRUD / Checkout -->
+    <!-- Generic Modal Overlay -->
     <div class="modal-overlay" id="modal-overlay">
         <div class="modal" id="generic-modal">
-            <div class="modal-header">
-                <h2 id="modal-title">Título</h2>
-                <button class="close-modal" id="close-modal">&times;</button>
-            </div>
+            <div class="modal-header"><h2 id="modal-title">Título</h2><button class="close-modal" id="close-modal">&times;</button></div>
             <div class="modal-body" id="modal-content"></div>
         </div>
     </div>
 
-    <!-- Toast Notification -->
+    <!-- Notifications -->
     <div class="toast" id="toast"></div>
 
-    <!-- PDF Generation Library -->
+    <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="script.js"></script>
 </body>
