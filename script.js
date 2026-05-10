@@ -1,20 +1,20 @@
 // --- 1. DATA & INITIAL STATE ---
 const DEFAULT_DISHES = [
-    { id: 1, name: "Empanadas de Pipian", description: "3 deliciosas empanadas crujientes con ají casero.", price: 12000, category: "Entradas", image: "https://images.unsplash.com/photo-1628543102715-99d124b862f2?w=600" },
-    { id: 2, name: "Arepa de Choclo", description: "Maíz tierno con generosa capa de queso campesino.", price: 9500, category: "Entradas", image: "https://images.unsplash.com/photo-1548943487-a2e4e43b4853?w=600" },
-    { id: 3, name: "Calamares al Ajillo", description: "Anillos de calamar salteados en ajo y finas hierbas.", price: 28000, category: "Entradas", image: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=600" },
-    { id: 4, name: "Carne Asada Especial", description: "Corte de res a la parrilla, arroz, papa salada y ensalada fresca.", price: 42000, category: "Platos Fuertes", image: "https://images.unsplash.com/photo-1544025162-d76694265947?w=600" },
+    { id: 1, name: "Empanadas de Yuca", description: "3 tradicionales empanadas de masa de yuca, crujientes y rellenas de carne.", price: 12500, category: "Entradas", image: "https://images.unsplash.com/photo-1628543102715-99d124b862f2?w=600" },
+    { id: 2, name: "Arepa de Choclo", description: "Maíz tierno con generosa capa de queso campesino.", price: 9500, category: "Entradas", image: "https://images.unsplash.com/photo-1630138221876-068345479261?w=600" },
+    { id: 3, name: "Dedos de Yuca", description: "6 palitos de yuca crocantes rellenos de queso hilado con salsa de la casa.", price: 12000, category: "Entradas", image: "https://images.unsplash.com/photo-1623653387945-2fd25214f8fc?w=600" },
+    { id: 4, name: "Carne Asada Especial", description: "Corte de res a la parrilla, arroz, papa salada y ensalada fresca.", price: 42000, category: "Platos Fuertes", image: "https://images.unsplash.com/photo-1600891964092-4316c288032e?w=600" },
     { id: 5, name: "Ajiaco Santafereño", description: "Sopa tradicional con pollo, tres tipos de papas y guascas.", price: 32000, category: "Platos Fuertes", image: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=600" },
     { id: 6, name: "Pasta a la Bolognesa", description: "Pasta artesanal con salsa de carne y parmesano.", price: 29000, category: "Platos Fuertes", image: "https://images.unsplash.com/photo-1622973536968-3ead9e780960?w=600" },
-    { id: 7, name: "Limonada de Coco", description: "Bebida insignia refrescante y cremosa.", price: 12500, category: "Bebidas", image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=600" },
-    { id: 8, name: "Jugo de Lulo", description: "Fruta exótica colombiana en agua o leche.", price: 8500, category: "Bebidas", image: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=600" },
+    { id: 7, name: "Limonada de Coco", description: "Bebida insignia refrescante y cremosa.", price: 12500, category: "Bebidas", image: "https://images.unsplash.com/photo-1546173159-315724a9d6ad?w=600" },
+    { id: 8, name: "Sodas", description: "Refrescantes sodas saborizadas de frutos rojos, maracuyá y lulo.", price: 10500, category: "Bebidas", image: "https://images.unsplash.com/photo-1536935338788-846bb9981813?w=600" },
     { id: 9, name: "Brownie con Helado", description: "Brownie melcochudo con helado de vainilla.", price: 15000, category: "Postres", image: "https://images.unsplash.com/photo-1624353365286-3f8d62daad51?w=600" }
 ];
 
-// Force update to v7 to clear cache
-if (!localStorage.getItem('rest_v7')) {
+// Force update to v12 to clear cache
+if (!localStorage.getItem('rest_v12')) {
     localStorage.removeItem('rest_dishes');
-    localStorage.setItem('rest_v7', 'true');
+    localStorage.setItem('rest_v12', 'true');
 }
 
 let dishes = JSON.parse(localStorage.getItem('rest_dishes')) || DEFAULT_DISHES;
