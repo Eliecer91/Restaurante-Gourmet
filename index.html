@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gourmet Express | Gestión de Pedidos</title>
+    <meta name="description" content="Sistema de gestión de pedidos para restaurante moderno y eficiente.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-utensils"></i>
+                <span>Gourmet<span>Express</span></span>
+            </div>
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" id="dish-search" placeholder="Buscar platillos...">
+            </div>
+            <div class="cart-trigger" id="cart-btn">
+                <i class="fas fa-shopping-basket"></i>
+                <span class="cart-count" id="cart-count">0</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <aside class="categories-nav">
+            <ul id="category-list">
+                <li class="active" data-category="all">Todos</li>
+                <li data-category="Entradas">Entradas</li>
+                <li data-category="Platos Fuertes">Platos Fuertes</li>
+                <li data-category="Bebidas">Bebidas</li>
+                <li data-category="Postres">Postres</li>
+            </ul>
+        </aside>
+
+        <section class="menu-section">
+            <h1 id="category-title">Todos los Platillos</h1>
+            <div class="menu-grid" id="menu-grid">
+                <!-- Dishes will be rendered here dynamically -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+    <aside class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h2>Tu Pedido</h2>
+            <button class="close-cart" id="close-cart">&times;</button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Cart items will be rendered here -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cart-total-price">$0.00</span>
+            </div>
+            <button class="btn-primary btn-block" id="checkout-btn">Confirmar Pedido</button>
+        </div>
+    </aside>
+
+    <!-- Order Modal -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Finalizar Pedido</h2>
+                <button class="close-modal" id="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="order-form">
+                    <div class="form-group">
+                        <label for="customer-name">Nombre Completo</label>
+                        <input type="text" id="customer-name" required placeholder="Ej: Juan Pérez">
+                    </div>
+                    <div class="form-group">
+                        <label for="order-type">Tipo de Pedido</label>
+                        <select id="order-type" required>
+                            <option value="mesa">Consumo en Local (Mesa)</option>
+                            <option value="domicilio">Para llevar / Domicilio</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="table-group">
+                        <label for="table-number">Número de Mesa</label>
+                        <input type="number" id="table-number" min="1" max="20" placeholder="Ej: 5">
+                    </div>
+                    <div class="form-group hidden" id="address-group">
+                        <label for="address">Dirección de Entrega</label>
+                        <input type="text" id="address" placeholder="Calle 123 #45-67">
+                    </div>
+                    <div class="order-summary-mini">
+                        <h3>Resumen</h3>
+                        <div id="modal-summary-items"></div>
+                        <div class="modal-total">
+                            <strong>Total a pagar:</strong>
+                            <span id="modal-total-price">$0.00</span>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary btn-block">Confirmar Ahora</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Message -->
+    <div class="toast" id="toast">Pedido confirmado con éxito!</div>
+
+    <script src="script.js"></script>
+</body>
+</html>
