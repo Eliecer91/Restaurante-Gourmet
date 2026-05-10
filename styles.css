@@ -18,6 +18,8 @@
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.hidden { display: none !important; }
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
@@ -49,9 +51,14 @@ h1, h2, h3, .logo { font-family: 'Outfit', sans-serif; font-weight: 700; }
 }
 .modal-overlay.active { opacity: 1; visibility: visible; }
 
-.login-card h2 { margin-bottom: 5px; }
-.login-card p { color: var(--text-muted); margin-bottom: 25px; }
-.login-hint { font-size: 0.8rem; margin-top: 15px; color: var(--text-muted); }
+.login-modal-card {
+    background: white;
+    padding: 30px;
+    border-radius: var(--radius-lg);
+    width: 100%;
+    max-width: 400px;
+    box-shadow: var(--shadow-lg);
+}
 
 /* Header & Nav */
 .main-header {
@@ -92,7 +99,13 @@ h1, h2, h3, .logo { font-family: 'Outfit', sans-serif; font-weight: 700; }
 }
 
 /* Client Menu View */
-.menu-layout { display: grid; grid-template-columns: 240px 1fr; gap: 40px; }
+.menu-layout { 
+    display: grid; 
+    grid-template-columns: 240px 1fr; 
+    gap: 40px; 
+    align-items: flex-start;
+}
+.menu-content { min-width: 0; }
 .categories-nav .search-bar { margin-bottom: 20px; }
 .categories-nav ul { list-style: none; }
 .categories-nav li {
@@ -104,7 +117,12 @@ h1, h2, h3, .logo { font-family: 'Outfit', sans-serif; font-weight: 700; }
 }
 .categories-nav li.active { background: var(--primary); color: white; box-shadow: var(--shadow-md); }
 
-.menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
+.menu-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+    gap: 30px; 
+    width: 100%;
+}
 
 /* Waiter View: Kanban Board */
 .orders-board { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; min-height: 600px; }
