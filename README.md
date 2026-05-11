@@ -18,6 +18,28 @@
   - [html2pdf.js](https://ekoopmans.github.io/html2pdf.js/) para la generación de facturas.
   - [Google Fonts](https://fonts.google.com/) (Outfit e Inter).
 
+## 🚀 Instalación y Ejecución
+
+Para clonar y ejecutar este proyecto en tu máquina local, sigue estos pasos:
+
+### 1. Clonar el repositorio
+Abre una terminal y ejecuta el siguiente comando:
+```bash
+git clone https://github.com/TU_USUARIO/TU_REPOSITORIO.git
+```
+
+### 2. Abrir el proyecto
+Entra en la carpeta del proyecto:
+```bash
+cd Taller_Restaurante
+```
+Luego, abre la carpeta con tu editor de código favorito (se recomienda Visual Studio Code).
+
+### 3. Ejecución
+Como es una aplicación web estática, no requiere instalación de dependencias complejas. Tienes dos opciones:
+- **Opción A (Recomendada)**: Haz clic derecho sobre el archivo `index.html` y selecciona **"Open with Live Server"** (requiere la extensión Live Server en VSC).
+- **Opción B**: Simplemente haz doble clic en el archivo `index.html` para abrirlo en tu navegador predeterminado.
+
 ## 🧑‍💻 Desarrollado por:
 - **Jorge Eliecer Castillo**
 - **Año**: 2026
