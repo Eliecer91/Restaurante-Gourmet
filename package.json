@@ -1,0 +1,23 @@
+{
+  "name": "restaurante-gourmet-main",
+  "version": "1.0.0",
+  "description": "¡Bienvenido a **Gourmet Express**, una aplicación web premium diseñada para la gestión integral de pedidos, clientes y facturación de un restaurante de comida típica colombiana.",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint:js": "eslint .",
+    "lint:css": "stylelint \"**/*.css\"",
+    "lint:html": "htmlhint \"**/*.html\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^9.39.4",
+    "htmlhint": "^1.9.2",
+    "jest": "^30.4.2",
+    "stylelint": "^17.12.0"
+  }
+}
+
+
