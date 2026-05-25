@@ -1,0 +1,18 @@
+[33mee3987d[m[33m ([m[1;31morigin/main[m[33m)[m Documentos finales: Update README y adiciona CHANGELOG y LICENSE
+[33m6cdd121[m Add documentacion: README, DATABASE y DEPLOYMENT manuales
+[33m0f60163[m Cambio de imagenes v25
+[33me5c7d62[m Fix: All menu images verified and corrected v19
+[33me2d2ca9[m Final image migration to Pexels v18
+[33m4d0adfe[m Fix: Add pointer cursor to navigation links
+[33m9cd894c[m UI Overhaul: Premium design, glassmorphism and hero section
+[33medeacb0[m Revert brownie image to previous version
+[33mef2ef0b[m Revert brownie image to previous version
+[33m783a063[m Revert brownie image to previous version
+[33mb89294e[m Expansión de menú a 9 platos y fix de imágenes
+[33m29cca58[m Corrección definitiva de rutas, imágenes y moneda
+[33me01e470[m Actualización: PDF de pago, moneda COP y mejoras visuales
+[33m060ec55[m Restore missing styles and fix image sizes
+[33m170dbe8[m Fix layout and login button
+[33m4e9f1ad[m Update: Guest access and login modal
+[33m72e8fe5[m Add baseline components
+[33m0c37352[m Initial commit: App de restaurante completa
