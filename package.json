@@ -1,23 +1,36 @@
 {
   "name": "restaurante-gourmet-main",
-  "version": "1.0.0",
-  "description": "¡Bienvenido a **Gourmet Express**, una aplicación web premium diseñada para la gestión integral de pedidos, clientes y facturación de un restaurante de comida típica colombiana.",
-  "main": "script.js",
+  "version": "2.0.0",
+  "description": "Gourmet Express Distribuido: Ecosistema orientado a eventos (EDA) con comunicación full-duplex WebSocket, Broker Central en Node.js, Smart Proxy, KDS, Kanban de Meseros y Worker Threads concurrentes.",
+  "main": "server/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js",
+    "test": "node --test tests/*.test.js",
+    "lint": "npm run lint:html && npm run lint:css",
     "lint:js": "eslint .",
     "lint:css": "stylelint \"**/*.css\"",
     "lint:html": "htmlhint \"**/*.html\""
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "eda",
+    "event-driven",
+    "distributed-systems",
+    "websocket",
+    "worker-threads",
+    "kds",
+    "restaurant"
+  ],
+  "author": "Jorge Eliecer Castillo",
   "license": "ISC",
   "devDependencies": {
     "eslint": "^9.39.4",
     "htmlhint": "^1.9.2",
     "jest": "^30.4.2",
     "stylelint": "^17.12.0"
+  },
+  "dependencies": {
+    "socket.io": "^4.8.4",
+    "socket.io-client": "^4.8.4"
   }
 }
-
-

@@ -1,29 +1,32 @@
-# Manual de Despliegue (Deployment) 🚀
+# Manual de Despliegue (Gourmet Express Distribuido) 
 
-Este proyecto es una aplicación estática (HTML/CSS/JS), por lo que puede ser desplegado fácilmente en cualquier servicio de hosting moderno.
+El sistema opera sobre **Node.js LTS (v18+)** sirviendo la SPA (HTML5/CSS3/ES6+), el Broker de Eventos sobre **Socket.io** y los **Worker Threads** nativos de liquidación impositiva y auditoría.
 
-## Opción 1: Vercel (Recomendado)
-Vercel detecta automáticamente proyectos de Vanilla JS y ofrece actualizaciones automáticas al hacer `git push`.
+## Requisitos
+- **Node.js LTS v18 o superior**
+- Dependencias instaladas vía `npm install` (`socket.io`)
 
-1. Conecta tu cuenta de GitHub a [Vercel](https://vercel.com/).
-2. Selecciona el repositorio `Taller_Restaurante`.
-3. Deja los parámetros por defecto (Build Command y Output Directory vacíos).
-4. Haz clic en **Deploy**.
+## Ejecución Local y en Red LAN (Multi-dispositivo)
 
-## Opción 2: GitHub Pages
-Ideal para proyectos escolares o portafolios rápidos.
+```bash
+npm install
+npm start
+```
 
-1. Ve a la pestaña **Settings** de tu repositorio en GitHub.
-2. En el menú lateral, selecciona **Pages**.
-3. En la sección "Build and deployment", elige la rama `main` y la carpeta `/ (root)`.
-4. Haz clic en **Save**. Tu sitio estará disponible en `https://tu-usuario.github.io/tu-repositorio/` en unos minutos.
+El servidor escucha en `0.0.0.0:3000` (configurable con `PORT` y `HOST`). Al iniciar muestra las direcciones LAN para conectar dispositivos reales en la misma red Wi-Fi:
 
-## Opción 3: Servidor Local (Desarrollo)
-Si deseas trabajar de forma local con actualización automática:
+- Comensales (móviles): `http://<IP_DEL_SERVIDOR>:3000/cliente`
+- Pantalla en Cocina (KDS): `http://<IP_DEL_SERVIDOR>:3000/kds`
+- Terminal de Sala / Meseros (Kanban): `http://<IP_DEL_SERVIDOR>:3000/mesero`
+- Consola Admin & Monitor EDA: `http://<IP_DEL_SERVIDOR>:3000/admin`
 
-1. Instala la extensión **Live Server** en Visual Studio Code.
-2. Abre la carpeta del proyecto.
-3. Haz clic derecho en `index.html` y selecciona **"Open with Live Server"**.
+## Modo Desarrollo
 
----
-**Nota Crítica**: Para que las imágenes se visualicen correctamente, asegúrate de tener una conexión a internet estable, ya que se cargan mediante CDN (Pexels/iStock).
+```bash
+npm run dev
+```
+
+## Verificación de Despliegue
+
+1. Consulta `GET /api/health` para validar runtime, transporte `WebSockets (Socket.io)`, estado de los `Worker Threads` y telemetría del Broker.
+2. Verifica `GET /socket.io/socket.io.js` para confirmar la entrega del cliente Socket.io hacia la SPA.

@@ -1,48 +1,66 @@
-# Gourmet Express - Sistema de Gestión de Restaurante 🍽️
+# Gourmet Express Distribuido (EDA) 🍽️⚡
 
-¡Bienvenido a **Gourmet Express**, una aplicación web premium diseñada para la gestión integral de pedidos, clientes y facturación de un restaurante de comida típica colombiana.
+**Gourmet Express Distribuido** es un sistema de gestión de restaurante estructurado bajo una **Arquitectura Orientada a Eventos (Event-Driven Architecture - EDA)** con comunicación **full-duplex en tiempo real** mediante **Socket.io**, procesamiento concurrente en **Worker Threads** nativos de Node.js y tolerancia a desconexión con **HTML5 LocalStorage (Fallback)**.
 
-## ✨ Características Principales
-- **Menú Interactivo**: Visualización de platos típicos con imágenes de alta calidad (Pexels).
-- **Gestión de Pedidos**: Sistema de carrito de compras con actualización en tiempo real.
-- **Módulo de Mesero**: Tablero de control para seguimiento de estados de pedidos (Pendiente, Preparando, Listo, Entregado).
-- **Facturación Manual**: Permite el ingreso manual de datos del cliente y opción de guardado persistente.
-- **Generación de PDF**: Creación automática de comprobantes de pago en PDF.
-- **Diseño Premium**: Interfaz moderna con *Glassmorphism*, degradados vibrantes y diseño 100% responsivo.
-- **Persistencia**: Almacenamiento local mediante `localStorage` con sistema de versionamiento de caché.
+## 🧰 Supuestos Arquitectónicos y Herramientas Tecnológicas
 
-## 🛠️ Tecnologías Utilizadas
-- **Frontend**: HTML5, CSS3 (Custom Properties, Flexbox, Grid), JavaScript (Vanilla ES6+).
-- **Librerías**: 
-  - [FontAwesome](https://fontawesome.com/) para iconos.
-  - [html2pdf.js](https://ekoopmans.github.io/html2pdf.js/) para la generación de facturas.
-  - [Google Fonts](https://fonts.google.com/) (Outfit e Inter).
+| Criterio Tecnológico | Herramienta Seleccionada | Justificación Arquitectónica |
+|---|---|---|
+| **Runtime del Servidor** | Node.js LTS (v18+) | Provee un modelo de E/S no bloqueante optimizado para miles de conexiones simultáneas. |
+| **Transporte de Red** | WebSockets (`Socket.io`) | Comunicación persistente y bidireccional con baja sobrecarga de paquetes y enrutamiento por salas. |
+| **Concurrencia y Multihilo** | `Worker Threads` (Módulo Nativo) | Permite aislar la ejecución de código intensivo en CPU (impuestos y auditoría) en hilos separados. |
+| **Capa de Presentación** | HTML5, CSS3, JavaScript ES6+ | Arquitectura SPA de respuesta ultrarrápida sin renderizado del lado del servidor. |
+| **Tolerancia a Desconexión** | HTML5 `LocalStorage` (Fallback) | Mecanismo perimetral para salvaguardar pedidos, carrito y caché del menú si se interrumpe la red. |
+
+## 🏗️ Principio de Desacoplamiento Espaciotemporal
+
+Los clientes (comensales) desconocen la ubicación de red de las pantallas de cocina (KDS) o de los terminales de sala. Toda interacción se delega al **Broker Central** sobre **Socket.io**, que enruta eventos asíncronamente mediante salas (`role:kds`, `role:waiter`, `role:admin`, `session:<clientSessionId>`), preservando la independencia operativa de cada nodo.
+
+## 🧩 Componentes Funcionales y Nodos de Red
+
+1. **Nodo Cliente Comensal (`/cliente` o `/`)**
+   - SPA ligera orientada a dispositivos móviles.
+   - Consulta el menú sincronizado en vivo y transmite órdenes a través del **Proxy Inteligente** ([smart-proxy.js](smart-proxy.js)), con respaldo perimetral en `localStorage` ante cortes de red, retransmisión idempotente y rastreador de estado en tiempo real.
+2. **Nodo Terminal de Cocina - KDS (`/kds` o `/cocina`)**
+   - Pantalla operativa de alto contraste que recibe notificaciones instantáneas de nuevos pedidos (con alerta sonora opcional y cronómetro) y actualiza el estado culinario en un clic (`Pendiente` → `Preparando` → `Listo`).
+3. **Nodo Terminal de Sala / Meseros (`/mesero` o `/sala`)**
+   - Tablero interactivo tipo **Kanban** (`Pendiente`, `Preparando`, `Listo`, `Entregado`) con Drag & Drop, asignación de mesero, alertas instantáneas cuando cocina marca un pedido listo y factura PDF con desglose INC 8%.
+4. **Nodo Servidor Central / Broker de Eventos ([server/index.js](server/index.js), [server/ws-broker.js](server/ws-broker.js))**
+   - Servidor Node.js con **Socket.io** que orquesta el enrutamiento de eventos, mantiene el estado global en memoria ([server/state-store.js](server/state-store.js)) y administra los canales full-duplex.
+5. **Hilos de Procesamiento Secundario - Worker Threads ([server/worker-manager.js](server/worker-manager.js))**
+   - **Tax Worker** ([server/workers/tax-worker.js](server/workers/tax-worker.js)): Liquidación impositiva colombiana (Base Gravable, INC 8%, propina sugerida 10% y hash fiscal SHA-256).
+   - **Audit Worker** ([server/workers/audit-worker.js](server/workers/audit-worker.js)): Registro de auditoría concurrente con hash encadenado SHA-256 persistido en `data/audit.log.jsonl`.
 
 ## 🚀 Instalación y Ejecución
 
-Para clonar y ejecutar este proyecto en tu máquina local, sigue estos pasos:
+Requiere **Node.js LTS v18+**.
 
-### 1. Clonar el repositorio
-Abre una terminal y ejecuta el siguiente comando:
 ```bash
-git clone https://github.com/TU_USUARIO/TU_REPOSITORIO.git
+npm install
+npm start
 ```
 
-### 2. Abrir el proyecto
-Entra en la carpeta del proyecto:
+Abre cada nodo en pestañas o dispositivos distintos de tu red:
+
+- **Nodo Comensal (SPA Móvil):** `http://localhost:3000/cliente`
+- **Nodo Terminal de Cocina (KDS):** `http://localhost:3000/kds`
+- **Nodo Terminal de Sala / Meseros:** `http://localhost:3000/mesero`
+- **Consola Admin & Monitor EDA:** `http://localhost:3000/admin`
+- **Diagnóstico REST del Broker:** `http://localhost:3000/api/health`
+
+### Credenciales por Rol
+- `admin` / `admin123` (Administración, Menú, Reportes y Monitor EDA)
+- `mesero` / `mesero123` (Terminal de Sala / Meseros Kanban)
+- `cocina` / `cocina123` (Terminal de Cocina KDS)
+- `cliente` / `cliente123` (Nodo Cliente Comensal)
+
+## 🧪 Pruebas Automatizadas
+
+Ejecuta la suite de pruebas de integración (Socket.io full-duplex, desacoplamiento espaciotemporal, Worker Threads y Fallback de LocalStorage):
+
 ```bash
-cd Taller_Restaurante
+npm test
 ```
-Luego, abre la carpeta con tu editor de código favorito (se recomienda Visual Studio Code).
 
-### 3. Ejecución
-Como es una aplicación web estática, no requiere instalación de dependencias complejas. Tienes dos opciones:
-- **Opción A (Recomendada)**: Haz clic derecho sobre el archivo `index.html` y selecciona **"Open with Live Server"** (requiere la extensión Live Server en VSC).
-- **Opción B**: Simplemente haz doble clic en el archivo `index.html` para abrirlo en tu navegador predeterminado.
-
-## 🧑‍💻 Desarrollado por:
-- **Jorge Eliecer Castillo**
-- **Año**: 2026
-
----
-© 2026 Gourmet Express. Todos los derechos reservados.
+## 🧑‍💻 Desarrollado por
+- **Jorge Eliecer Castillo** · 2026
