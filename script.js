@@ -289,8 +289,8 @@ function renderBrokerStatus(info) {
         const queue = info.queuedCount > 0 ? ` · Cola LocalStorage: ${info.queuedCount}` : '';
         meta.textContent = `(${info.nodeId || 'registrando...'}${rtt}${queue})`;
     } else if (info.status === 'offline-fallback') {
-        text.textContent = 'Modo Respaldo LocalStorage';
-        meta.textContent = info.queuedCount > 0 ? `(Pedidos salvaguardados: ${info.queuedCount})` : '(Sin Broker activo)';
+        text.textContent = 'Modo Fallback LocalStorage (Multi-pestaña)';
+        meta.textContent = `(${info.nodeId || 'local'} · Sincronización local activa)`;
     } else if (info.status === 'reconnecting') {
         text.textContent = 'Reconectando Socket.io...';
         meta.textContent = info.queuedCount > 0 ? `(Respaldo LocalStorage: ${info.queuedCount})` : '(Fallback LocalStorage activo)';
@@ -330,7 +330,7 @@ function handleLogin(e) {
 function handleLogout() {
     currentUser = null;
     sessionStorage.removeItem('ge_user_v1');
-    window.location.href = '/cliente';
+    window.location.href = '/?node=client';
 }
 
 // --- 5. NAVEGACIÓN Y VISTAS ---
