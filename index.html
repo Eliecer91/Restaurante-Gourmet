@@ -14,8 +14,8 @@
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-    <!-- Barra de Estado del Ecosistema Distribuido (Broker + Accesos por Nodo) -->
-    <div class="eda-topbar">
+    <!-- Barra de Estado del Ecosistema Distribuido (Solo visible para personal: KDS, Meseros y Admin) -->
+    <div class="eda-topbar hidden" id="eda-topbar">
         <div class="container eda-topbar-content">
             <div class="broker-status-pill" id="broker-status-pill" data-state="connecting">
                 <span class="status-dot"></span>
@@ -71,7 +71,7 @@
             <div class="logo">
                 <i class="fas fa-fire"></i>
                 <span>Gourmet<span>Express</span></span>
-                <span class="node-role-badge" id="active-node-badge">COMENSAL</span>
+                <span class="node-role-badge hidden" id="active-node-badge">COMENSAL</span>
             </div>
 
             <nav class="main-nav" id="main-nav">
@@ -99,7 +99,7 @@
         <section id="view-menu" class="view active">
             <div class="menu-hero">
                 <div class="menu-hero-inner">
-                    <span class="hero-tag"><i class="fas fa-bolt"></i> Nodo Comensal · Socket.io Full-Duplex + LocalStorage Fallback</span>
+                    <span class="hero-tag"><i class="fas fa-utensils"></i> Cocina Tradicional Colombiana · Pedidos en Tiempo Real</span>
                     <h1>¡Bienvenido a Gourmet Express!</h1>
                     <p>Explora nuestra carta tradicional colombiana y sigue tu comanda en tiempo real sin demoras.</p>
                 </div>

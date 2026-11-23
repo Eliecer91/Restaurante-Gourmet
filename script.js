@@ -365,10 +365,14 @@ function updateNavigation() {
     const nav = document.getElementById('main-nav');
     const role = getEffectiveRole();
 
+    const isStaff = role === 'kds' || role === 'waiter' || role === 'admin';
+    const topbar = document.getElementById('eda-topbar');
+    if (topbar) topbar.classList.toggle('hidden', !isStaff);
+
     const roleBadge = document.getElementById('active-node-badge');
     const roleLabels = { client: 'NODO COMENSAL', kds: 'NODO KDS COCINA', waiter: 'NODO SALA / MESERO', admin: 'NODO ADMIN EDA' };
     roleBadge.textContent = roleLabels[role] || 'COMENSAL';
-    roleBadge.className = `node-role-badge role-${role}`;
+    roleBadge.className = `node-role-badge role-${role}${isStaff ? '' : ' hidden'}`;
 
     document.querySelectorAll('.node-chip').forEach((chip) => {
         chip.classList.toggle('active-node', chip.dataset.nodeLink === role);
