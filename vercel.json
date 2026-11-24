@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    { "source": "/cliente", "destination": "/index.html" },
+    { "source": "/comensal", "destination": "/index.html" },
+    { "source": "/kds", "destination": "/index.html" },
+    { "source": "/cocina", "destination": "/index.html" },
+    { "source": "/mesero", "destination": "/index.html" },
+    { "source": "/sala", "destination": "/index.html" },
+    { "source": "/admin", "destination": "/index.html" },
+    { "source": "/monitor", "destination": "/index.html" }
+  ]
+}

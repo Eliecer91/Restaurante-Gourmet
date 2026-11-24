@@ -1,0 +1,12 @@
+# Dependencias de Node.js
+node_modules/
+
+# Logs de auditoría generados en ejecución por AuditTrailWorker
+data/*.jsonl
+*.log
+
+# Variables de entorno y archivos del sistema operativo
+.env
+.env.local
+.DS_Store
+Thumbs.db
