@@ -1,4 +1,6 @@
 /* global SmartOrderProxy, html2pdf */
+import { CatalogNavigationController } from './js/catalogNavigationController.js';
+import { DistributedNavigationProxy } from './js/navigationProxy.js';
 
 // --- 1. CONFIGURACIÓN DE NODOS Y ESTADO EN MEMORIA DEL CLIENTE ---
 const FALLBACK_DISHES = [
@@ -32,8 +34,6 @@ let brokerSummary = null;
 // Carrito persistido en HTML5 LocalStorage (tolerancia a desconexión/recarga del dispositivo móvil)
 let cart = JSON.parse(localStorage.getItem('ge_cart_v1') || '[]');
 let currentUser = JSON.parse(sessionStorage.getItem('ge_user_v1') || 'null');
-let activeCategory = 'all';
-let searchQuery = '';
 let activeViewId = 'view-menu';
 let kdsSoundEnabled = true;
 
@@ -85,11 +85,12 @@ const smartProxy = new SmartOrderProxy({
     nodeName: getDefaultNodeName(getEffectiveRole())
 });
 
-// Cargar menú en caché desde HTML5 LocalStorage si existe (tolerancia a desconexión)
-const cachedDishes = smartProxy.getCachedMenu();
-if (Array.isArray(cachedDishes) && cachedDishes.length) {
-    dishes = cachedDishes;
-}
+// Proxy de Navegación Distribuida (Memoria -> LocalStorage -> Red) y Controlador Strategy con Debounce
+const navigationProxy = new DistributedNavigationProxy(smartProxy.brokerUrl, {
+    smartProxy
+});
+dishes = navigationProxy.fetchCatalog();
+const catalogNav = new CatalogNavigationController(dishes);
 
 // --- 2. ALERTAS SONORAS KDS (Web Audio API sin dependencias externas) ---
 function playChime(type = 'new-order') {
@@ -137,7 +138,10 @@ function bindBrokerEvents() {
 
     smartProxy.on('state:snapshot', (data) => {
         const snap = data.snapshot || {};
-        if (Array.isArray(snap.dishes) && snap.dishes.length) dishes = snap.dishes;
+        if (Array.isArray(snap.dishes) && snap.dishes.length) {
+            dishes = snap.dishes;
+            catalogNav.updateRepository(dishes);
+        }
         if (Array.isArray(snap.orders)) orders = snap.orders;
         if (Array.isArray(snap.reservations)) reservations = snap.reservations;
         if (Array.isArray(snap.customers)) customers = snap.customers;
@@ -212,6 +216,7 @@ function bindBrokerEvents() {
     smartProxy.on('menu:updated', ({ dishes: updatedDishes }) => {
         if (Array.isArray(updatedDishes)) {
             dishes = updatedDishes;
+            catalogNav.updateRepository(dishes);
             renderAllActiveViews();
             showToast('Carta actualizada en tiempo real desde el Broker');
         }
@@ -420,31 +425,82 @@ function updateNavigation() {
 }
 
 // --- 6. NODO CLIENTE COMENSAL (MENÚ + RASTREADOR EN VIVO) ---
-function renderClientMenu() {
+function renderClientMenu(precomputedResults = null) {
     const grid = document.getElementById('menu-grid');
-    let filtered = dishes;
-    if (activeCategory !== 'all') filtered = filtered.filter((d) => d.category === activeCategory);
-    if (searchQuery) filtered = filtered.filter((d) => d.name.toLowerCase().includes(searchQuery));
+    if (!grid) return;
 
-    grid.innerHTML = filtered.map((dish) => `
-        <div class="dish-card">
-            <div class="dish-img-container">
-                <img src="${dish.image}" alt="${dish.name}" loading="lazy">
-                <span class="dish-category">${dish.category}</span>
+    const filtered = Array.isArray(precomputedResults)
+        ? precomputedResults
+        : catalogNav.resolveNavigation();
+
+    const filters = catalogNav.getActiveFilters();
+    const titleEl = document.getElementById('category-title');
+    if (titleEl) {
+        titleEl.textContent = (!filters.category || filters.category === 'Todos' || filters.category === 'all')
+            ? 'Carta Gourmet'
+            : filters.category;
+    }
+
+    const countEl = document.getElementById('catalog-results-count');
+    if (countEl) {
+        countEl.textContent = `${filtered.length} de ${dishes.length} platillos`;
+    }
+
+    if (!filtered.length) {
+        grid.innerHTML = `
+            <div class="empty-menu-state">
+                <i class="fas fa-search" style="font-size: 2rem; opacity: 0.45;"></i>
+                <h3>No encontramos platillos con esos filtros</h3>
+                <p>Prueba ajustando el texto de búsqueda, la categoría o el precio máximo.</p>
+                <button type="button" class="btn-primary" style="margin-top: 14px;" onclick="resetCatalogFilters()">
+                    <i class="fas fa-undo"></i> Ver toda la carta
+                </button>
             </div>
-            <div class="dish-info">
-                <h3>${dish.name}</h3>
-                <p>${dish.description}</p>
-                <div class="dish-footer">
-                    <span class="dish-price">$${dish.price.toLocaleString('es-CO')}</span>
-                    <button class="btn-add" type="button" onclick="addToCart(${dish.id})" title="Agregar al pedido">
-                        <i class="fas fa-plus"></i>
-                    </button>
+        `;
+        return;
+    }
+
+    grid.innerHTML = filtered.map((dish) => {
+        const name = dish.name ?? dish.nombre;
+        const category = dish.category ?? dish.categoria;
+        const description = dish.description ?? dish.descripcion;
+        const price = Number(dish.price ?? dish.precio ?? 0);
+        return `
+            <div class="dish-card">
+                <div class="dish-img-container">
+                    <img src="${dish.image}" alt="${name}" loading="lazy">
+                    <span class="dish-category">${category}</span>
+                </div>
+                <div class="dish-info">
+                    <h3>${name}</h3>
+                    <p>${description}</p>
+                    <div class="dish-footer">
+                        <span class="dish-price">$${price.toLocaleString('es-CO')}</span>
+                        <button class="btn-add" type="button" onclick="addToCart(${dish.id})" title="Agregar al pedido">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
 }
+
+window.resetCatalogFilters = () => {
+    const searchInput = document.getElementById('dish-search');
+    const priceRange = document.getElementById('price-filter-range');
+    const priceValue = document.getElementById('price-filter-value');
+    if (searchInput) searchInput.value = '';
+    if (priceRange) priceRange.value = '0';
+    if (priceValue) priceValue.textContent = 'Sin límite';
+
+    document.querySelectorAll('#category-list li').forEach((li) => {
+        li.classList.toggle('active', li.dataset.category === 'Todos');
+    });
+
+    const allResults = catalogNav.resetFilters();
+    renderClientMenu(allResults);
+};
 
 function renderClientOrdersTracker() {
     const panel = document.getElementById('client-orders-tracker');
@@ -1037,7 +1093,7 @@ function openCheckoutModal() {
             }))
         };
 
-        await smartProxy.submitOrder(payload);
+        await navigationProxy.dispatchOrder(payload);
         cart = [];
         saveCart();
         updateCartUI();
@@ -1148,17 +1204,36 @@ function setupCoreListeners() {
     document.getElementById('logout-btn').onclick = handleLogout;
 
     document.getElementById('dish-search').oninput = (e) => {
-        searchQuery = e.target.value.toLowerCase();
-        renderClientMenu();
+        catalogNav.setSearchQueryDebounced(e.target.value, (filtered) => {
+            renderClientMenu(filtered);
+        }, 150);
     };
 
     document.getElementById('category-list').onclick = (e) => {
         if (e.target.tagName === 'LI') {
-            activeCategory = e.target.dataset.category;
             document.querySelectorAll('#category-list li').forEach((li) => li.classList.toggle('active', li === e.target));
-            renderClientMenu();
+            const filtered = catalogNav.setCategory(e.target.dataset.category);
+            renderClientMenu(filtered);
         }
     };
+
+    const priceRange = document.getElementById('price-filter-range');
+    const priceValue = document.getElementById('price-filter-value');
+    if (priceRange) {
+        priceRange.oninput = (e) => {
+            const val = Number(e.target.value);
+            if (priceValue) {
+                priceValue.textContent = val > 0 ? `Hasta $${val.toLocaleString('es-CO')}` : 'Sin límite';
+            }
+            const filtered = catalogNav.setMaxPrice(val > 0 ? val : null);
+            renderClientMenu(filtered);
+        };
+    }
+
+    const resetBtn = document.getElementById('reset-filters-btn');
+    if (resetBtn) {
+        resetBtn.onclick = () => window.resetCatalogFilters();
+    }
 
     document.getElementById('cart-btn').onclick = toggleCart;
     document.getElementById('close-cart').onclick = toggleCart;

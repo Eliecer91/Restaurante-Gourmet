@@ -119,18 +119,36 @@
                 <aside class="categories-nav">
                     <div class="search-bar">
                         <i class="fas fa-search"></i>
-                        <input type="text" id="dish-search" placeholder="Buscar plato...">
+                        <input type="text" id="dish-search" placeholder="Buscar plato o ingrediente...">
                     </div>
                     <ul id="category-list">
-                        <li class="active" data-category="all">Todos</li>
+                        <li class="active" data-category="Todos">Todos</li>
                         <li data-category="Entradas">Entradas</li>
                         <li data-category="Platos Fuertes">Platos Fuertes</li>
                         <li data-category="Bebidas">Bebidas</li>
                         <li data-category="Postres">Postres</li>
                     </ul>
+                    <div class="price-filter-card">
+                        <div class="price-filter-head">
+                            <label for="price-filter-range"><i class="fas fa-sliders-h"></i> Precio máximo</label>
+                            <span id="price-filter-value">Sin límite</span>
+                        </div>
+                        <input type="range" id="price-filter-range" min="0" max="50000" step="2500" value="0">
+                        <div class="price-filter-scale">
+                            <span>Todos</span>
+                            <span>$25.000</span>
+                            <span>$50.000</span>
+                        </div>
+                        <button type="button" id="reset-filters-btn" class="btn-reset-filters">
+                            <i class="fas fa-undo"></i> Limpiar filtros
+                        </button>
+                    </div>
                 </aside>
                 <div class="menu-content">
-                    <h1 id="category-title">Carta Gourmet</h1>
+                    <div class="menu-header-bar">
+                        <h1 id="category-title">Carta Gourmet</h1>
+                        <span class="catalog-results-badge" id="catalog-results-count">0 platillos</span>
+                    </div>
                     <div class="menu-grid" id="menu-grid"></div>
                 </div>
             </div>
@@ -393,6 +411,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/smart-proxy.js"></script>
-    <script src="/script.js"></script>
+    <script type="module" src="/script.js"></script>
 </body>
 </html>
